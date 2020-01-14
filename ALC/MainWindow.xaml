@@ -4,9 +4,128 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ALC"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:core="clr-namespace:ALC.Core;assembly=ALC.Core"
+        xmlns:converters="clr-namespace:ALC.Converters"
+        xmlns:popup="clr-namespace:ALC.Views.Message.Popup"
+        xmlns:message="clr-namespace:ALC.Core.ViewModels.Message;assembly=ALC.Core"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        MinHeight="300" MinWidth="1000" Closed="CleanupApplication" Loaded="OnMainWindowLoaded"
+        Title="CYGIA ALC-004" WindowStyle="None" Icon="{StaticResource Icon}"        >
+  <DockPanel>
+        <!-- Drag border -->
+        <materialDesign:ColorZone Height="30" DockPanel.Dock="Top" MouseDown="DragWindow"
+                                  MouseDoubleClick="ResizeWindow"
+                                  Width="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=ActualWidth}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="{StaticResource Logo}" Width="100" />
+                    <TextBlock Text="Assembly Line Controller" Margin="20 0" FontSize="24" />
+                </StackPanel>
+
+                <!-- System buttons -->
+                <materialDesign:ColorZone Grid.Column="1" HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Click="MinimizeWindow" Margin="0 2 2 0">
+                            <materialDesign:PackIcon Kind="WindowMinimize" />
+                        </Button>
+                        <Button Click="RestoreWindow" Margin="0 2 2 0">
+                            <materialDesign:PackIcon Kind="WindowRestore" />
+                        </Button>
+                        
+                        <Button Click="CloseMainWindow"
+                            Margin="0 2 15 0">
+                            <materialDesign:PackIcon Kind="WindowClose" />
+                        </Button>
+
+                    </StackPanel>
+                </materialDesign:ColorZone>
+            </Grid>
+        </materialDesign:ColorZone>
+        <Grid DockPanel.Dock="Top" DataContext="{Binding Source={x:Static core:MainWindowViewModel.Instance}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <!-- ToolBar -->
+            <ToolBarTray Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Top">
+                <ToolBar>
+           
+                    <Button Command="{Binding SwitchLoginPageCommand}" Margin="10 0">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource Login}" Height="30" />
+                            <TextBlock FontFamily="{x:Static SystemFonts.CaptionFontFamily}" Text=" 登陆"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding SwitchHomePageCommand}" Margin="10 0">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource Home}" Height="30" />
+                            <TextBlock FontFamily="{x:Static SystemFonts.CaptionFontFamily}" Text=" 主页"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding SwitchServerPageCommand}" Margin="10 0">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource PLC}" Height="30" />
+                            <TextBlock Text=" PLC" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding SwitchCameraPageCommand}" Margin="10 0">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource Camera}" Height="30" />
+                            <TextBlock Text=" 2D" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button Command="{Binding SwitchLaserPageCommand}" Margin="10 0">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource Laser}" Height="30" />
+                            <TextBlock Text=" 3D" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="10 0" Command="{Binding Path=SwitchSettingsPageCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{StaticResource Settings}" Height="30" />
+                            <TextBlock FontFamily="{x:Static SystemFonts.CaptionFontFamily}" Text=" 设置"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button Margin="10 0" Command="{Binding Path=SwitchTablePageCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Table" Height="30" />
+                            <TextBlock FontFamily="{x:Static SystemFonts.CaptionFontFamily}" Text=" 表格"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+
+                </ToolBar>
+            </ToolBarTray>
+            <Button Grid.Row="0" HorizontalAlignment="Right" Background="Transparent" BorderBrush="Transparent"
+                    ToolTip="帮助" Command="{Binding Path=OpenHelpDocsCommand}">
+                <materialDesign:PackIcon Kind="QuestionMarkCircle" />
+            </Button>
+
+            <materialDesign:DialogHost Grid.Row="1" IsOpen="{Binding Source={x:Static message:Logger.Instance}, Path=DialogIsOpen}">
+                <Grid>   <!-- Pages here -->
+                   <ContentControl Content="{Binding CurrentApplicationPage, Converter={converters:ApplicationPageConverter}}"/>
+                   <!-- TODO: bind to snackbar message queue -->
+                </Grid>
+                <!-- Message dialog -->
+                <materialDesign:DialogHost.DialogContent>
+                    <popup:PopupView DataContext="{Binding Source={x:Static message:Logger.Instance}, Path=PopupViewModel}" Width="400" Height="250"/>
+                </materialDesign:DialogHost.DialogContent>
+            </materialDesign:DialogHost>
+        </Grid>
+
+
+    </DockPanel>
 </Window>

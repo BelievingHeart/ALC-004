@@ -6,6 +6,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLCCommunication.Core", "PL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFCommon", "WPFCommon\WPFCommon.csproj", "{7D6BE37F-D81B-4A5E-A1A0-A8D4381F0536}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeasurementCommon", "MeasurementCommon\MeasurementCommon.csproj", "{8DBACFDF-628F-4FA5-96C5-0110D37BA966}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ALC.Core", "ALC.Core\ALC.Core.csproj", "{DDC28AD3-218E-4E66-A4ED-F91173D3FCC8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,13 @@ Global
 		{7D6BE37F-D81B-4A5E-A1A0-A8D4381F0536}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D6BE37F-D81B-4A5E-A1A0-A8D4381F0536}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D6BE37F-D81B-4A5E-A1A0-A8D4381F0536}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DBACFDF-628F-4FA5-96C5-0110D37BA966}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DBACFDF-628F-4FA5-96C5-0110D37BA966}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DBACFDF-628F-4FA5-96C5-0110D37BA966}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DBACFDF-628F-4FA5-96C5-0110D37BA966}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDC28AD3-218E-4E66-A4ED-F91173D3FCC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDC28AD3-218E-4E66-A4ED-F91173D3FCC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDC28AD3-218E-4E66-A4ED-F91173D3FCC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDC28AD3-218E-4E66-A4ED-F91173D3FCC8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

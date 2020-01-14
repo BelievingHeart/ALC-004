@@ -10,6 +10,43 @@ namespace WPFCommon.Helpers
     public static class AutoSerializableHelper
     {
         
+                
+        /// <summary>
+        /// Load a single auto-serializable
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="serializationDir"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T LoadAutoSerializable<T>(string serializationDir, string name)
+            where T : AutoSerializableBase<T>, new()
+
+        {
+            Directory.CreateDirectory(serializationDir);
+            var filePath = Path.Combine(serializationDir, name + ".xml");
+            T output;
+            try // Load it from disk
+            {
+                using (var fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    var serializer = new XmlSerializer(typeof(T)); 
+                    output = (T) serializer.Deserialize(fs);
+                    output.SerializationDirectory = serializationDir;
+                }
+            }
+            catch (Exception) // If not in disk, create a new one
+            {
+                output = new T
+                {
+                    Name = name,
+                    SerializationDirectory = serializationDir
+                };
+            }
+
+            return output;
+        }
+        
+        
         /// <summary>
         /// Load auto-serializables from disk
         /// If anyone not exist, a new one will be created

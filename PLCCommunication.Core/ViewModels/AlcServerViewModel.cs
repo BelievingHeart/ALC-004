@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using PLCCommunication.Core.Enums;
 using PLCCommunication.Core.Interfaces;
-using WPFCommon.Commands;
-using WPFCommon.Helpers;
-using WPFCommon.ViewModels.Base;
+
 
 namespace PLCCommunication.Core.ViewModels
 {

@@ -77,6 +77,9 @@
       <e p="ALC.Core" t="IncludeRecursive">
         <e p="ALC.Core.csproj" t="IncludeRecursive" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Camera" t="Include">
+          <e p="HCamera.cs" t="Include" />
+        </e>
         <e p="Command" t="Include">
           <e p="CloseDialogAttachedCommand.cs" t="Include" />
         </e>

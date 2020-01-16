@@ -135,7 +135,7 @@ namespace ALC.Core.ViewModels.Message
 
         /// <summary>
         /// Start queuing up popup windows
-        /// </summary>
+        /// </summary> 
         public static void StartPopupQueue()
         {
             Instance._popupQueue = new PopupQueue(o=>!Instance.DialogIsOpen);

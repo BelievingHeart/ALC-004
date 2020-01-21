@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera\HCamera.cs" />
+    <Compile Include="Camera\ImageCollector.cs" />
     <Compile Include="Command\CloseDialogAttachedCommand.cs" />
     <Compile Include="Constants\DirectoryConstants.cs" />
     <Compile Include="Enums\ApplicationPage.cs" />

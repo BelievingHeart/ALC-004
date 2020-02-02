@@ -80,6 +80,10 @@
       <Project>{fe922df9-e533-4310-aee4-6bdaf738aee1}</Project>
       <Name>PLCCommunication.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Precitec\Precitec.csproj">
+      <Project>{5850f791-a69f-41e5-a0ea-d40f4040aa4a}</Project>
+      <Name>Precitec</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WPFCommon\WPFCommon.csproj">
       <Project>{7d6be37f-d81b-4a5e-a1a0-a8d4381f0536}</Project>
       <Name>WPFCommon</Name>

@@ -30,6 +30,7 @@ namespace ALC.Core
         public ICommand SwitchSettingsPageCommand { get; }
 
         public ICommand SwitchTablePageCommand { get; }
+        public ICommand SwitchChartPageCommand { get; }
 
         public ICommand SwitchLoginPageCommand { get; }
 
@@ -73,6 +74,10 @@ namespace ALC.Core
             CurrentApplicationPage = ApplicationPage.Login;
         }
 
+        private void SwitchChartPage()
+        {
+            CurrentApplicationPage = ApplicationPage.Charts;
+        }
         #endregion
 
 
@@ -94,6 +99,8 @@ namespace ALC.Core
                 o => CurrentApplicationPage != ApplicationPage.Table);
             SwitchLoginPageCommand = new SimpleCommand(o => SwitchLoginPage(),
                 o => CurrentApplicationPage != ApplicationPage.Login);
+            SwitchChartPageCommand = new SimpleCommand(o=> SwitchChartPage(), 
+                o=>CurrentApplicationPage!=ApplicationPage.Charts);
             OpenHelpDocsCommand = new RelayCommand(()=>Process.Start(Path.Combine(DirectoryConstants.DocumentaryDir, "IA906调试说明书.docx")));
         }
 

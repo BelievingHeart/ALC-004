@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Timers;
+using System.Windows.Threading;
 
 namespace Precitec
 {
     public class CHR2Controller
     {
+        private readonly string[] _signalNames;
         private uint _deviceHandle;
-        private Timer _timer;
+        private DispatcherTimer _timer;
         private List<double[]> _sampleBuffers;
         private double[] _oneSampleData;
         private int _currentDataPos;
@@ -16,11 +19,20 @@ namespace Precitec
         private short[] _specData;
 
 
-        public event Action<List<double[]>> CurvesUpdated;
+        public event Action<Dictionary<string, double[]>> CurvesUpdated;
         public event Action<short[]> SpectrumDataUpdated; 
         
-        public CHR2Controller(string ipAddress, int[] signalIds, int updateInterval = 50)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ipAddress">ip address of the precitec device</param>
+        /// <param name="signalIds">the signals to output</param>
+        /// <param name="signalNames">the signal names corresponds to signal ids</param>
+        /// <param name="updateInterval">The interval to read data from precitec device</param>
+        /// <exception cref="InvalidOperationException"></exception>
+        public CHR2Controller(string ipAddress, int[] signalIds, string[] signalNames, int updateInterval = 50)
         {
+            _signalNames = signalNames;
             // Connect
             var connectionInfo = "IP:" + ipAddress;
             var connectSuccess = TCHRDLLFunctionWrapper.OpenConnection(connectionInfo, TCHRDLLFunctionWrapper.CHR_2Gen_Device, out var connectionId) == 0;
@@ -40,12 +52,13 @@ namespace Precitec
            _specData = new short[_dataLength];
            
            // Set up timer
-           _timer = new Timer(updateInterval);
-           _timer.Elapsed += TimerOnElapsed;
+           _timer = new DispatcherTimer(DispatcherPriority.Normal);
+           _timer.Tick += TimerOnElapsed;
+           _timer.Interval = TimeSpan.FromMilliseconds(updateInterval);
            _timer.Start();
         }
 
-        private void TimerOnElapsed(object sender, ElapsedEventArgs e)
+        private void TimerOnElapsed(object sender, EventArgs eventArgs)
         {
                 IntPtr pData = IntPtr.Zero;
             //read in CHRocodile data
@@ -79,7 +92,14 @@ namespace Precitec
                 }
             }
 
-            OnCurvesUpdated(_sampleBuffers);
+            // Convert to dictionary
+            var curvesDict = new Dictionary<string, double[]>();
+            for (int i = 0; i < _signalNames.Length; i++)
+            {
+                curvesDict[_signalNames[i]] = _sampleBuffers[i];
+            }
+            
+            OnCurvesUpdated(curvesDict);
 
             //download spectrum
                 int SpecType = TCHRDLLFunctionWrapper.Raw_Spectrum;
@@ -107,7 +127,7 @@ namespace Precitec
         }
 
 
-        protected virtual void OnCurvesUpdated(List<double[]> obj)
+        protected virtual void OnCurvesUpdated(Dictionary<string, double[]> obj)
         {
             CurvesUpdated?.Invoke(obj);
         }

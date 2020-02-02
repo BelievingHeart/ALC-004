@@ -9,6 +9,7 @@
         Table,
         Laser,
         Server,
-        Settings
+        Settings,
+        Charts
     }
 }

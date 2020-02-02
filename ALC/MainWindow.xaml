@@ -106,7 +106,13 @@
                                        VerticalAlignment="Center" />
                         </StackPanel>
                     </Button>
-
+                    <Button Margin="10 0" Command="{Binding Path=SwitchChartPageCommand}">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ChartBellCurve" Height="30" />
+                            <TextBlock FontFamily="{x:Static SystemFonts.CaptionFontFamily}" Text=" 曲线"
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
                 </ToolBar>
             </ToolBarTray>
             <Button Grid.Row="0" HorizontalAlignment="Right" Background="Transparent" BorderBrush="Transparent"

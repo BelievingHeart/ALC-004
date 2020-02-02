@@ -38,21 +38,23 @@ namespace ALC.Converters
                 case ApplicationPage.Settings:
                     pageType = typeof(SettingsView);
                     break;
+                case ApplicationPage.Charts:
+                    pageType = typeof(ChartView);
+                    break;
                 default:
                     throw new NotSupportedException("Can not find such type of page");
             }
 
-            if (_pages.Any(ele => ele.GetType() == pageType))
+            // If page created, take from the list
+            if (Pages.Any(ele => ele.GetType() == pageType))
             {
-                return _pages.First(ele => ele.GetType() == pageType);
+                return Pages.First(ele => ele.GetType() == pageType);
             }
-            else
-            {
-                var page = (UserControl)Activator.CreateInstance(pageType);
-                _pages.Add(page);
 
-                return page;
-            }
+            // If not created push in list and return the new page
+            var page = (UserControl)Activator.CreateInstance(pageType);
+            Pages.Add(page);
+            return page;
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -61,6 +63,6 @@ namespace ALC.Converters
         }
         
         
-        private static IList<UserControl> _pages = new List<UserControl>();
+        private static readonly IList<UserControl> Pages = new List<UserControl>();
     }
 }

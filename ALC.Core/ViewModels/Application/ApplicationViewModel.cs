@@ -1,5 +1,7 @@
-﻿using ALC.Core.Constants;
+﻿using System.Collections.Generic;
+using ALC.Core.Constants;
 using ALC.Core.ViewModels.Message;
+using Precitec;
 using WPFCommon.Helpers;
 using WPFCommon.ViewModels.Base;
 
@@ -7,7 +9,21 @@ namespace ALC.Core.ViewModels.Application
 {
     public class ApplicationViewModel : ViewModelBase
     {
+
+        #region private field
+
+        private CHR2Controller _precitectController;
+        // TODO: define ip address
+        private string _precitecControllerIp;
+        // TODO: define signal ids
+        private int[] _signalIds;
+
+
+
+        
         private static ApplicationViewModel _instance;
+
+        #endregion
         public static ApplicationViewModel Instance => _instance;
 
 
@@ -21,7 +37,21 @@ namespace ALC.Core.ViewModels.Application
 
             Logger.StartPopupQueue();
             
+            // Setup precitec controller
+            _precitectController = new CHR2Controller(_precitecControllerIp, _signalIds, SignalNames);
+            _precitectController.CurvesUpdated += curves => SignalCurvesData = curves;
+
         }
+
+        #region props
+
+        public Dictionary<string, double[]> SignalCurvesData { get; set; }
+        
+        // TODO: define signal names
+        public string[] SignalNames { get; set; }
+
+        #endregion
+
 
         #region api
 
